@@ -29,5 +29,12 @@ body{
 .in{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 3px;
+}
+input{
+    padding: 3px;
+}
+button{
+    margin: 20px;
+    padding: 3px;
 }
