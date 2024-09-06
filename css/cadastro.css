@@ -34,7 +34,6 @@ body{
     margin-top: 52px;
     z-index: 1;
 }
-/* From Uiverse.io by kamehame-ha */ 
 .coolinput {
     display: flex;
     flex-direction: column;
@@ -45,7 +44,7 @@ body{
   
   .coolinput label.text {
     font-size: 0.75rem;
-    color: #818CF8;
+    color: #608a95;
     font-weight: 700;
     position: relative;
     top: 0.5rem;
@@ -58,12 +57,12 @@ body{
   .coolinput input[type=text].input,input[type=email].input,input[type=password].input {
     padding: 11px 10px;
     font-size: 0.75rem;
-    border: 2px #818CF8 solid;
+    border: 2px #608a95 solid;
     border-radius: 5px;
     background: aliceblue;
   }
   
-  .coolinput input[type=text].input:focus {
+  .coolinput input[type=text].input:focus,input[type=email].input:focus,input[type=password].input:focus  {
     outline: none;
   }
   .animated-button {
@@ -106,7 +105,7 @@ body{
   }
   
   .animated-button:active {
-    scale: 0.95;
+    scale: 0.5;
   }
   
   .animated-button:hover span:last-child {
