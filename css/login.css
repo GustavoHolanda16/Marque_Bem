@@ -7,6 +7,7 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
+    text-decoration: none;
 }
 
 body {
@@ -17,10 +18,14 @@ body {
     margin: auto;
     align-items: center;
     justify-content: center;
+    background-image: url('img/fundo.jpg');
+    background-size: cover; /* Ajusta a imagem para cobrir toda a área */
+    background-repeat: no-repeat; /* Impede que a imagem se repita */
+    background-position: center; /* Centraliza a imagem */
 }
 
 /* Main container */
-.corpo {
+.corpo1{
     background-color: aliceblue;
     display: flex;
     flex-direction: column;
