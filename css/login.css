@@ -1,103 +1,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&display=swap');
 
-/* Global styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
-    text-decoration: none;
 }
 
 body {
-    background-color: #82F3FE;
+    background-image: url('/img/fundo1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     width: 50%;
     margin: auto;
     align-items: center;
     justify-content: center;
-    background-image: url('img/fundo.jpg');
-    background-size: cover; /* Ajusta a imagem para cobrir toda a área */
-    background-repeat: no-repeat; /* Impede que a imagem se repita */
-    background-position: center; /* Centraliza a imagem */
+    z-index: -1;
 }
 
-/* Main container */
-.corpo1{
+.corpo {
     background-color: aliceblue;
+    margin: auto;
+    padding-left: 80px;
+    padding-right: 80px;
     display: flex;
+    margin-top: 52px;
+    margin-bottom: 52px;;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
     border-radius: 16px;
-    padding: 25px 20px;
-    margin-top: 52px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
-/* Form container */
-.in {
+.coolinput {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    width: 100%;
+    width: fit-content;
+    position: static;
+    max-width: 240px;
+    justify-content: center;
+    align-items: center;
 }
 
-input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+.coolinput label.text {
+    font-size: 0.75rem;
+    color: #608a95;
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: aliceblue;
+    width: fit-content;
+}
+
+.coolinput input[type=text].input, input[type=email].input, input[type=password].input {
+    padding: 11px 10px;
+    font-size: 0.75rem;
+    border: 2px #608a95 solid;
+    border-radius: 5px;
+    background: aliceblue;
+}
+
+.coolinput input[type=text].input:focus, input[type=email].input:focus, input[type=password].input:focus {
     outline: none;
-    transition: border-color 0.3s ease;
+}
+.govb{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color:white;
+    border-radius: 16px;
+    width: 75px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-input:focus {
-    border-color: #82f3fe;
+.gov{
+    width: 60px;
+    height: 20px;
 }
+
 
 button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #82F3FE;
-    color: rgb(20, 52, 213);
+    margin-top: 10px;
+    padding: 14px 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    border: 0;
+    color: #608a95;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    transition: all 0.5s ease;
 }
 
 button:hover {
+    letter-spacing: 3px;
+    background-color: #608a95;
+    color: hsl(0, 0%, 100%);
+    box-shadow: #55909f;
+}
+
+button:active {
+    letter-spacing: 3px;
+    background-color: #608a95;
+    color: hsl(0, 0%, 100%);
+    box-shadow: #55909f;
+    transform: translateY(10px);
     transition: 0.5s;
-    background-color: #69c5d6;
-    color: #82F3FE;
 }
 
-/* Flex container */
-.lo {
-    display: flex;
-    gap: 10px;
+/* Responsividade para Tablets */
+@media screen and (max-width: 768px) {
+    body {
+        width: 80%;
+    }
+    .corpo {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
 }
 
-/* Link styling */
-a {
-    background-color: white;
-    text-decoration: none;
-    color: #000;
-    padding: 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-a:hover {
-    background-color: #f0f0f0;
-}
-
-/* Image styling */
-#gov {
-    transform: scale(0.1);
-    margin: 8px;
-    padding: 8px;
+/* Responsividade para Smartphones */
+@media screen and (max-width: 480px) {
+    body {
+        width: 100%;
+        padding: 20px;
+    }
+    .corpo {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .coolinput {
+        max-width: 100%;
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
 }

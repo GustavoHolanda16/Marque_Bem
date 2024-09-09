@@ -1,30 +1,35 @@
 <!DOCTYPE html>
-<html lang="Pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro </title>
+    <title>LOGIN</title>
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>  
     <section>
-        <div class="corpo1">
+        <div class="corpo">
             <div class="img">
                 <img src="img/image-removebg-preview(12).png" alt="">
             </div>
-            <div class="in">
-                <label class="label">Email</label>
-                <input autocomplete="off" name="Email" id="Email" class="input" type="email">
-                <label class="label">Senha</label>
-                <input autocomplete="off" name="senha" id="senha" class="input" type="password">
-                <button>login</button>
-                <a href="">Esqueceu sua senha?</a>
-            </div>
-            <div class="lo">
-                <button id="gov"><img src="img/image-removebg-preview(13).png"</button>
+            <div class="coolinput">
+                <label for="input" class="text">Email:</label>
+                <input type="email" placeholder="..." name="input" class="input">
+                <label for="input" class="text">Senha:</label>
+                <input type="password" placeholder="..." name="input" class="input">
+                <button>LOGIN</button> 
+                <a class="govb" href=""><img class="gov" src="img/gov.png" alt=""></a>
             </div>
         </div>
-       
+        <div class="ca"></div>
     </section>
+
+    <script>
+        // Script para redirecionar para o portal Gov.br ao clicar no botão
+        document.getElementById('govLogin').addEventListener('click', function() {
+
+            window.location.href = 'https://sso.acesso.gov.br/login?client_id=SEU_CLIENT_ID&redirect_uri=SEU_REDIRECT_URI&response_type=code';
+        });
+    </script>
 </body>
 </html>

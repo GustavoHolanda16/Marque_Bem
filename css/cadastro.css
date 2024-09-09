@@ -20,6 +20,7 @@ body{
     justify-content: center;
     z-index: -1;
 }
+
 .corpo{
     background-color: aliceblue;
     margin: auto;
@@ -42,9 +43,9 @@ body{
     width: fit-content;
     position: static;
     max-width: 240px;
-  }
+}
   
-  .coolinput label.text {
+.coolinput label.text {
     font-size: 0.75rem;
     color: #608a95;
     font-weight: 700;
@@ -54,20 +55,21 @@ body{
     padding: 0 3px;
     background: aliceblue;
     width: fit-content;
-  }
-  
-  .coolinput input[type=text].input,input[type=email].input,input[type=password].input {
+}
+
+.coolinput input[type=text].input, input[type=email].input, input[type=password].input {
     padding: 11px 10px;
     font-size: 0.75rem;
     border: 2px #608a95 solid;
     border-radius: 5px;
     background: aliceblue;
-  }
-  
-  .coolinput input[type=text].input:focus,input[type=email].input:focus,input[type=password].input:focus  {
+}
+
+.coolinput input[type=text].input:focus, input[type=email].input:focus, input[type=password].input:focus {
     outline: none;
-  }
-  button {
+}
+
+button {
     margin-top: 10px;
     padding: 14px 4px;
     border-radius: 8px;
@@ -80,25 +82,50 @@ body{
     text-transform: uppercase;
     font-size: 15px;
     transition: all 0.5s ease;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     letter-spacing: 3px;
     background-color: #608a95;
     color: hsl(0, 0%, 100%);
     box-shadow: #55909f;
-  }
-  
-  button:active {
+}
+
+button:active {
     letter-spacing: 3px;
     background-color:#608a95;
     color: hsl(0, 0%, 100%);
     box-shadow: #55909f;
     transform: translateY(10px);
     transition: 0.5s;
-  }
-  
-  
-  
-  
-  
+}
+
+/* Responsividade para Tablets */
+@media screen and (max-width: 768px) {
+    body {
+        width: 80%;
+    }
+    .corpo {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+/* Responsividade para Smartphones */
+@media screen and (max-width: 480px) {
+    body {
+        width: 100%;
+        padding: 20px;
+    }
+    .corpo {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .coolinput {
+        max-width: 100%;
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+}
