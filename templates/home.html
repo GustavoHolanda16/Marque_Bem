@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Bem-vindo, {{ nome }}!</h1>
+    <p>Esta é a sua página inicial após o login.</p>
+    <a href="{{ url_for('logout') }}"><button>Sair</button></a>
+</body>
+</html>

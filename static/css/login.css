@@ -1,0 +1,146 @@
+/* Importando fontes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap');
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+}
+
+/* Corpo da página */
+body {
+    background-image: url('../img/fundo1.jpg');  /* Caminho relativo ajustado */
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    z-index: -1;
+    padding: 20px;
+}
+
+/* Seção principal */
+.corpo {
+    background-color: aliceblue;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Estilo dos inputs e labels */
+.coolinput {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 20px;
+}
+
+.coolinput label {
+    font-size: 0.9rem;
+    color: #608a95;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.coolinput input[type="text"], 
+.coolinput input[type="email"], 
+.coolinput input[type="password"] {
+    padding: 12px 10px;
+    font-size: 0.85rem;
+    border: 2px solid #608a95;
+    border-radius: 5px;
+    background: aliceblue;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Foco no input */
+.coolinput input:focus {
+    outline: none;
+    border-color: #55909f;
+}
+
+/* Botões */
+button {
+    margin-top: 15px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    color: #608a95;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: all 0.4s ease;
+}
+
+button:hover {
+    background-color: #608a95;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+}
+
+button:active {
+    transform: translateY(5px);
+    transition: 0.2s;
+}
+
+/* Botão especial para gov login */
+.govb {
+    margin-top: 15px;
+    background-color: white;
+    border-radius: 16px;
+    width: 75px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gov {
+    width: 60px;
+    height: 20px;
+}
+
+/* Responsividade para Tablets */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    .corpo {
+        padding: 30px;
+    }
+}
+
+/* Responsividade para Smartphones */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+    .corpo {
+        padding: 20px;
+    }
+    .coolinput {
+        max-width: 100%;
+    }
+    button {
+        font-size: 0.85rem;
+    }
+}

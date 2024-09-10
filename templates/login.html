@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>  
+    <section>
+        <div class="corpo">
+            <div class="img">
+                <img src="{{ url_for('static', filename='img/image-removebg-preview(12).png') }}" alt="">
+            </div>
+            <div class="coolinput">
+                <form method="POST">
+                    <label for="email" class="text">Email:</label>
+                    <input type="email" placeholder="..." name="email" class="input" required>
+                    <label for="senha" class="text">Senha:</label>
+                    <input type="password" placeholder="..." name="senha" class="input" required>
+                    <button type="submit">LOGIN</button>
+                </form>
+                <a href="{{ url_for('cadastro') }}"><button>Ir para Cadastro</button></a>
+                <a class="govb" href="#"><img class="gov" src="{{ url_for('static', filename='img/gov.png') }}" alt=""></a>
+            </div>
+        </div>
+        <div class="ca"></div>
+    </section>
+</body>
+</html>
