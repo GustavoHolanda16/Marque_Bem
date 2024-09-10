@@ -1,131 +1,146 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&display=swap');
+/* Importando fontes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap');
 
-*{
+/* Reset básico */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 600;
 }
 
-body{
-    background-image: url('/img/fundo1.jpg');
-    background-size:cover;
+/* Corpo da página */
+body {
+    background-image: url('../img/fundo1.jpg');  /* Caminho relativo ajustado */
+    background-size: cover;
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
-    width: 50%;
-    margin: auto;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
     z-index: -1;
+    padding: 20px;
 }
 
-.corpo{
+/* Seção principal */
+.corpo {
     background-color: aliceblue;
-    margin: auto;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding: 40px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     border-radius: 16px;
-    padding-bottom: 25px;
-    margin-top: 52px;
-    margin-bottom: 52px;
-    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
 }
 
+/* Estilo dos inputs e labels */
 .coolinput {
     display: flex;
     flex-direction: column;
-    width: fit-content;
-    position: static;
-    max-width: 240px;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 20px;
 }
-  
-.coolinput label.text {
-    font-size: 0.75rem;
+
+.coolinput label {
+    font-size: 0.9rem;
     color: #608a95;
     font-weight: 700;
-    position: relative;
-    top: 0.5rem;
-    margin: 0 0 0 7px;
-    padding: 0 3px;
-    background: aliceblue;
-    width: fit-content;
+    margin-bottom: 8px;
 }
 
-.coolinput input[type=text].input, input[type=email].input, input[type=password].input {
-    padding: 11px 10px;
-    font-size: 0.75rem;
-    border: 2px #608a95 solid;
+.coolinput input[type="text"], 
+.coolinput input[type="email"], 
+.coolinput input[type="password"] {
+    padding: 12px 10px;
+    font-size: 0.85rem;
+    border: 2px solid #608a95;
     border-radius: 5px;
     background: aliceblue;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.coolinput input[type=text].input:focus, input[type=email].input:focus, input[type=password].input:focus {
+/* Foco no input */
+.coolinput input:focus {
     outline: none;
+    border-color: #55909f;
 }
 
+/* Botões */
 button {
-    margin-top: 10px;
-    padding: 14px 4px;
+    margin-top: 15px;
+    padding: 12px;
+    width: 100%;
     border-radius: 8px;
     cursor: pointer;
-    border: 0;
-    color:#608a95;
+    border: none;
+    color: #608a95;
     background-color: white;
-    box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    font-size: 15px;
-    transition: all 0.5s ease;
+    font-size: 0.9rem;
+    transition: all 0.4s ease;
 }
 
 button:hover {
-    letter-spacing: 3px;
     background-color: #608a95;
-    color: hsl(0, 0%, 100%);
-    box-shadow: #55909f;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
 }
 
 button:active {
-    letter-spacing: 3px;
-    background-color:#608a95;
-    color: hsl(0, 0%, 100%);
-    box-shadow: #55909f;
-    transform: translateY(10px);
-    transition: 0.5s;
+    transform: translateY(5px);
+    transition: 0.2s;
+}
+
+/* Botão especial para gov login */
+.govb {
+    margin-top: 15px;
+    background-color: white;
+    border-radius: 16px;
+    width: 75px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gov {
+    width: 60px;
+    height: 20px;
 }
 
 /* Responsividade para Tablets */
 @media screen and (max-width: 768px) {
     body {
-        width: 80%;
+        padding: 10px;
     }
     .corpo {
-        padding-left: 40px;
-        padding-right: 40px;
+        padding: 30px;
     }
 }
 
 /* Responsividade para Smartphones */
 @media screen and (max-width: 480px) {
     body {
-        width: 100%;
-        padding: 20px;
+        padding: 5px;
     }
     .corpo {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 20px;
     }
     .coolinput {
         max-width: 100%;
-        width: 100%;
     }
     button {
-        width: 100%;
+        font-size: 0.85rem;
     }
 }

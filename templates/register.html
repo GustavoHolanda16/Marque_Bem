@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
 </head>
-<body>
+<body>  
     <section>
         <div class="corpo">
             <div class="img">
                 <img src="{{ url_for('static', filename='img/image-removebg-preview(12).png') }}" alt="Logo">
             </div>
-            <form action="/login" method="POST">
+            <form action="/register" method="POST">
                 <div class="coolinput">
+                    <label for="name" class="text">Nome:</label>
+                    <input type="text" name="name" placeholder="Digite seu nome" class="input" required>
+                    
                     <label for="email" class="text">Email:</label>
                     <input type="email" name="email" placeholder="Digite seu email" class="input" required>
+                    
+                    <label for="cpf" class="text">CPF:</label>
+                    <input type="text" name="cpf" placeholder="Digite seu CPF" class="input" required>
                     
                     <label for="password" class="text">Senha:</label>
                     <input type="password" name="password" placeholder="Digite sua senha" class="input" required>
                     
-                    <button type="submit">Login</button>
-                    <a href="{{ url_for('register') }}">Ainda não tem uma conta? Cadastre-se</a>
+                    <label for="confirm_password" class="text">Confirmar Senha:</label>
+                    <input type="password" name="confirm_password" placeholder="Confirme sua senha" class="input" required>
+
+                    <button type="submit">Cadastrar</button>
                 </div>
             </form>
         </div>

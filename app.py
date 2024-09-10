@@ -2,92 +2,92 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'sua_chave_secreta'
+app.secret_key = 'your_secret_key'
 
-# Função para criar o banco de dados
-def init_sqlite_db():
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            cpf TEXT NOT NULL,
-            senha TEXT NOT NULL
-        )
-    ''')
+# Conexão com o banco de dados
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Criar a tabela de usuários no SQLite (apenas uma vez)
+def create_table():
+    conn = get_db_connection()
+    conn.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        cpf TEXT NOT NULL,
+        password TEXT NOT NULL
+    )''')
     conn.commit()
     conn.close()
 
-# Inicializa o banco de dados ao iniciar a aplicação
-init_sqlite_db()
+create_table()
 
 # Rota para a página de cadastro
-@app.route('/cadastro', methods=['GET', 'POST'])
-def cadastro():
+@app.route('/register', methods=['GET', 'POST'])
+def register():
     if request.method == 'POST':
-        nome = request.form['nome']
+        name = request.form['name']
         email = request.form['email']
         cpf = request.form['cpf']
-        senha = request.form['senha']
-        confirmar_senha = request.form['confirmar_senha']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
 
-        if senha != confirmar_senha:
-            flash('Senhas não conferem, tente novamente!', 'error')
-            return render_template('cadastro.html')
+        if password != confirm_password:
+            flash('As senhas não coincidem!')
+            return redirect(url_for('register'))
 
         try:
-            conn = sqlite3.connect('users.db')
-            cursor = conn.cursor()
-            cursor.execute('INSERT INTO users (nome, email, cpf, senha) VALUES (?, ?, ?, ?)', (nome, email, cpf, senha))
+            conn = get_db_connection()
+            conn.execute("INSERT INTO users (name, email, cpf, password) VALUES (?, ?, ?, ?)",
+                         (name, email, cpf, password))
             conn.commit()
             conn.close()
-            flash('Cadastro realizado com sucesso!', 'success')
+            flash('Cadastro realizado com sucesso!')
             return redirect(url_for('login'))
         except sqlite3.IntegrityError:
-            flash('O email já está em uso, tente novamente com outro email.', 'error')
-            return render_template('cadastro.html')
-
-    return render_template('cadastro.html')
+            flash('Esse email já está cadastrado.')
+            return redirect(url_for('register'))
+        
+    return render_template('register.html')
 
 # Rota para a página de login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
-        senha = request.form['senha']
-
-        conn = sqlite3.connect('users.db')
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE email = ? AND senha = ?', (email, senha))
-        user = cursor.fetchone()
+        password = request.form['password']
+        
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE email = ? AND password = ?', (email, password)).fetchone()
         conn.close()
-
+        
         if user:
-            session['user_id'] = user[0]
-            session['user_name'] = user[1]
-            flash('Login realizado com sucesso!', 'success')
+            session['user_id'] = user['id']
+            flash('Login realizado com sucesso!')
             return redirect(url_for('home'))
         else:
-            flash('Credenciais inválidas, tente novamente.', 'error')
-            return render_template('login.html')
-
+            flash('Credenciais inválidas. Tente novamente.')
+            return redirect(url_for('login'))
+    
     return render_template('login.html')
 
-# Rota para a página home (após o login)
+# Página home (após login)
 @app.route('/home')
 def home():
     if 'user_id' in session:
-        return render_template('home.html', nome=session['user_name'])
+        return render_template('home.html')
     else:
         return redirect(url_for('login'))
 
 # Rota para logout
 @app.route('/logout')
 def logout():
-    session.clear()
-    flash('Você saiu da sessão.', 'success')
+    session.pop('user_id', None)
+    flash('Logout realizado com sucesso!')
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
