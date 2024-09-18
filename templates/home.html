@@ -1,12 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Localização Atual e Serviços Próximos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
-    <h1>Bem-vindo(a) à página Home!</h1>
-    <a href="{{ url_for('logout') }}">Logout</a>
+  <div class="container">
+    <div class="header">
+      <h1>Bem-vindo à Página com Mapa</h1>
+      <p>Veja os locais próximos para clínicas e hospitais.</p>
+    </div>
+    <div class="content">
+      <p>Informações sobre serviços próximos aparecerão aqui.</p>
+    </div>
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
+    <div class="extra">
+      <p>Outro conteúdo extra aqui.</p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
+  <script>
+    const map = L.map('map').setView([0, 0], 15); // Inicializa o mapa com coordenadas genéricas
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © OpenStreetMap contributors'
+    }).addTo(map);
+
+    function locateUser() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error, {
+          enableHighAccuracy: true
+        });
+      } else {
+        alert("Geolocalização não é suportada por este navegador.");
+      }
+    }
+
+    function success(position) {
+      const userLat = position.coords.latitude;
+      const userLng = position.coords.longitude;
+
+      map.setView([userLat, userLng], 15);
+
+      L.marker([userLat, userLng])
+        .addTo(map)
+        .bindPopup("Você está aqui!")
+        .openPopup();
+
+      findNearbyPlaces(userLat, userLng);
+    }
+
+    function error() {
+      alert("Não foi possível obter a sua localização.");
+    }
+
+    function findNearbyPlaces(lat, lng) {
+      const service = new google.maps.places.PlacesService(new google.maps.Map(document.createElement('div')));
+
+      const request = {
+        location: new google.maps.LatLng(lat, lng),
+        radius: '25000',
+        type: ['hospital', 'clinic']
+      };
+
+      service.nearbySearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          results.forEach(place => {
+            L.marker([place.geometry.location.lat(), place.geometry.location.lng()])
+              .addTo(map)
+              .bindPopup(`<b>${place.name}</b><br>${place.vicinity}`);
+          });
+        } else {
+          console.error('Erro ao buscar lugares:', status);
+        }
+      });
+    }
+
+    locateUser();
+  </script>
 </body>
 </html>

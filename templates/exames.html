@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exames</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS, se houver -->
+</head>
+<body>
+    <h1>Exames Cadastrados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Paciente</th>
+                <th>CPF</th>
+                <th>Exame</th>
+                <th>Feito</th>
+                <th>Resultado Disponível</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exame in exames %}
+            <tr>
+                <td>{{ exame.name }}</td>
+                <td>{{ exame.cpf }}</td>
+                <td>{{ exame.nome_exame }}</td>
+                <td>{{ 'Sim' if exame.feito else 'Não' }}</td>
+                <td>{{ 'Sim' if exame.resultado else 'Não' }}</td>
+                <td>
+                    <a href="{{ url_for('editar_exame', id=exame.id) }}">Editar</a> |
+                    <a href="{{ url_for('deletar_exame', id=exame.id) }}" onclick="return confirm('Tem certeza que deseja excluir este exame?')">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('cadastrar_exames') }}">Cadastrar Novo Exame</a>
+</body>
+</html>
