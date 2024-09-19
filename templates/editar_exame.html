@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Exame</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_exame.css') }}">
+</head>
+<body>
+    <button class="novo-exame" onclick="window.location.href='{{ url_for('cadastrar_exames') }}'">Cadastrar Novo Exame</button>
+    <h1>Editar Exame</h1>
+    <form action="{{ url_for('editar_exame', id=exame.id) }}" method="POST">
+        <label for="name">Nome do Paciente:</label>
+        <input type="text" id="name" name="name" value="{{ exame.name }}" required>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" value="{{ exame.cpf }}" required>
+
+        <label for="exame">Selecione o Exame:</label>
+        <select id="exame" name="exame" required>
+            <option value="Hemograma" {% if exame.nome_exame == 'Hemograma' %} selected {% endif %}>Hemograma</option>
+            <option value="Colesterol" {% if exame.nome_exame == 'Colesterol' %} selected {% endif %}>Colesterol</option>
+            <option value="Glicemia" {% if exame.nome_exame == 'Glicemia' %} selected {% endif %}>Glicemia</option>
+            <option value="Triglicérides" {% if exame.nome_exame == 'Triglicérides' %} selected {% endif %}>Triglicérides</option>
+            <option value="Creatinina" {% if exame.nome_exame == 'Creatinina' %} selected {% endif %}>Creatinina</option>
+            <option value="Urina Tipo I" {% if exame.nome_exame == 'Urina Tipo I' %} selected {% endif %}>Urina Tipo I</option>
+        </select>
+
+        <label for="feito">Exame já foi realizado?</label>
+        <input type="checkbox" id="feito" name="feito" {% if exame.feito %} checked {% endif %}>
+
+        <label for="resultado">Resultado já disponível?</label>
+        <input type="checkbox" id="resultado" name="resultado" {% if exame.resultado %} checked {% endif %}>
+
+        <button type="submit">Salvar Alterações</button>
+    </form>
+    <a href="{{ url_for('exames') }}">Voltar para Exames</a>
+</body>
+</html>

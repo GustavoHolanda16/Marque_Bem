@@ -1,80 +1,109 @@
+/* Importando fontes */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap');
 
+/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    font-weight: 600;
 }
 
-body {
-    background-image: url('../img/fundo1.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    padding: 20px;
-    z-index: -1;
-}
-
-.header {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.content {
-    background-color: aliceblue;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    position: relative;
-}
-
-.map-container {
-    position: absolute;
-    top: 10px; /* Ajuste conforme necessário */
-    left: 10px; /* Ajuste conforme necessário */
-    width: 150px;
-    height: 200px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s;
+    position: fixed;
+    height: 100vh;
     overflow: hidden;
-    z-index: 10;
 }
 
-#map {
-    width: 100%;
-    height: 100%;
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
 }
 
-/* Responsividade */
-@media screen and (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-    .content {
-        padding: 30px;
-    }
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-@media screen and (max-width: 480px) {
-    body {
-        padding: 5px;
-    }
-    .content {
-        padding: 20px;
-    }
+.toggle-sidebar {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Navegação */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    padding: 10px 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+/* Conteúdo */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Box de Exames */
+.exams-box {
+    width: 25%; /* 1/4 da tela */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exam {
+    margin-bottom: 10px;
+}
+
+/* Botão "Ver Todos os Exames" */
+.btn-exams {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.btn-exams:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para a sidebar colapsada */
+.sidebar.collapsed {
+    width: 60px; /* largura reduzida */
+}
+
+.sidebar.collapsed nav a {
+    display: none; /* ocultar links */
+}
+
+/* Ajustes para a sidebar colapsada */
+.sidebar.collapsed .toggle-sidebar {
+    display: block;
+}
+
+.sidebar.collapsed .profile-pic {
+    display: none; /* ocultar foto de perfil */
 }

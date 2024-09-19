@@ -45,6 +45,11 @@ create_table_users()
 create_table_exames()
 
 
+# Rota padrão que redireciona para o login
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
+
 # Rota para cadastro de usuários
 @app.route('/register', methods=['GET', 'POST'])
 def register():

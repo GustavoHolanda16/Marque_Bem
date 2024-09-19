@@ -3,38 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exames</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS, se houver -->
+    <title>Exames Cadastrados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/exames.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <h1>Exames Cadastrados</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Nome do Paciente</th>
-                <th>CPF</th>
-                <th>Exame</th>
-                <th>Feito</th>
-                <th>Resultado Disponível</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for exame in exames %}
-            <tr>
-                <td>{{ exame.name }}</td>
-                <td>{{ exame.cpf }}</td>
-                <td>{{ exame.nome_exame }}</td>
-                <td>{{ 'Sim' if exame.feito else 'Não' }}</td>
-                <td>{{ 'Sim' if exame.resultado else 'Não' }}</td>
-                <td>
-                    <a href="{{ url_for('editar_exame', id=exame.id) }}">Editar</a> |
-                    <a href="{{ url_for('deletar_exame', id=exame.id) }}" onclick="return confirm('Tem certeza que deseja excluir este exame?')">Excluir</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Nome do Exame</th>
+            <th>Feito</th>
+            <th>Resultado</th>
+            <th>Ações</th>
+        </tr>
+        {% for exame in exames %}
+        <tr>
+            <td>{{ exame['name'] }}</td>
+            <td>{{ exame['cpf'] }}</td>
+            <td>{{ exame['nome_exame'] }}</td>
+            <td>{{ 'Sim' if exame['feito'] else 'Não' }}</td>
+            <td>{{ 'Sim' if exame['resultado'] else 'Não' }}</td>
+            <td>
+                <a href="{{ url_for('editar_exame', id=exame['id']) }}">Editar</a>
+                <a href="{{ url_for('deletar_exame', id=exame['id']) }}">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
-    <a href="{{ url_for('cadastrar_exames') }}">Cadastrar Novo Exame</a>
+    <a href="{{ url_for('cadastrar_exames') }}" class="btn cadastrar">Cadastrar Novo Exame</a>
+    <a href="{{ url_for('home') }}" class="btn home">Voltar para Home</a>
 </body>
 </html>
+    

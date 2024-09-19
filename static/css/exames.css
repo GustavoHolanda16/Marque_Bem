@@ -12,7 +12,7 @@
 
 /* Corpo da página */
 body {
-    background-image: url('../img/fundo1.jpg');  /* Caminho relativo ajustado */
+    background-image: url('../img/fundo1.jpg');  
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -23,4 +23,140 @@ body {
     width: 100%;
     z-index: -1;
     padding: 20px;
+}
+
+/* Botão 'Cadastrar Novo Exame' */
+.novo-exame {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.novo-exame:hover {
+    background-color: #218838;
+}
+
+/* Estilos da tabela */
+table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-top: 60px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botões de Ações */
+button {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Botão Editar - Azul */
+button.editar {
+    background-color: #007bff;
+    color: white;
+}
+
+button.editar:hover {
+    background-color: #0056b3;
+}
+
+/* Botão Excluir - Vermelho */
+button.excluir {
+    background-color: #dc3545;
+    color: white;
+}
+
+button.excluir:hover {
+    background-color: #c82333;
+}
+
+/* Links */
+a {
+    color: #28a745;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-top: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Botão Home */
+.btn-home {
+    background-color: #004d99; /* Azul escuro */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-home:hover {
+    background-color: #003366; /* Azul mais escuro no hover */
+}
+
+/* Botão Cadastrar */
+.btn-cadastrar {
+    background-color: #28a745; /* Verde */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-cadastrar:hover {
+    background-color: #218838; /* Verde mais escuro no hover */
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .novo-exame {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
 }
