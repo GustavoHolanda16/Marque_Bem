@@ -1,49 +1,49 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meu_banco.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'uma_chave_secreta_muito_forte'
 
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
-# Conexão com o banco de dados SQLite
-def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+# Modelos de banco de dados usando SQLAlchemy
 
-# Criação da tabela de usuários
-def create_table_users():
-    conn = get_db_connection()
-    conn.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        cpf TEXT NOT NULL,
-        password TEXT NOT NULL
-    )''')
-    conn.commit()
-    conn.close()
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    cpf = db.Column(db.String(14), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
-# Criação da tabela de exames
-def create_table_exames():
-    conn = get_db_connection()
-    conn.execute('''
-    CREATE TABLE IF NOT EXISTS exames (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        cpf TEXT NOT NULL,
-        nome_exame TEXT NOT NULL,
-        feito INTEGER NOT NULL,
-        resultado INTEGER NOT NULL
-    )''')
-    conn.commit()
-    conn.close()
+    # Relacionamento com Exames e Consultas
+    exames = db.relationship('Exame', backref='user', lazy=True, cascade="all, delete-orphan")
+    consultas = db.relationship('Consulta', backref='user', lazy=True, cascade="all, delete-orphan")
 
-# Inicialização das tabelas
-create_table_users()
-create_table_exames()
+class Exame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    cpf = db.Column(db.String(14), nullable=False)
+    nome_exame = db.Column(db.String(100), nullable=False)
+    feito = db.Column(db.Boolean, nullable=False, default=False)
+    resultado = db.Column(db.Boolean, nullable=False, default=False)
 
+    # Foreign Key para o usuário
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class Consulta(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    cpf = db.Column(db.String(14), nullable=False)
+    tipo_consulta = db.Column(db.String(100), nullable=False)
+    data_consulta = db.Column(db.String(20), nullable=False)
+    realizada = db.Column(db.Boolean, nullable=False, default=False)
+
+    # Foreign Key para o usuário
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 # Rota padrão que redireciona para o login
 @app.route('/')
@@ -65,19 +65,16 @@ def register():
             return redirect(url_for('register'))
 
         try:
-            conn = get_db_connection()
-            conn.execute("INSERT INTO users (name, email, cpf, password) VALUES (?, ?, ?, ?)",
-                         (name, email, cpf, password))
-            conn.commit()
-            conn.close()
+            novo_usuario = User(name=name, email=email, cpf=cpf, password=password)
+            db.session.add(novo_usuario)
+            db.session.commit()
             flash('Cadastro realizado com sucesso!')
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
+        except Exception as e:
             flash('Esse email já está cadastrado.')
             return redirect(url_for('register'))
 
     return render_template('register.html')
-
 
 # Rota para login de usuários
 @app.route('/login', methods=['GET', 'POST'])
@@ -86,12 +83,10 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE email = ? AND password = ?', (email, password)).fetchone()
-        conn.close()
+        user = User.query.filter_by(email=email, password=password).first()
 
         if user:
-            session['user_id'] = user['id']
+            session['user_id'] = user.id
             flash('Login realizado com sucesso!')
             return redirect(url_for('home'))
         else:
@@ -99,7 +94,6 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('login.html')
-
 
 # Rota para página inicial
 @app.route('/home')
@@ -109,7 +103,6 @@ def home():
     else:
         return redirect(url_for('login'))
 
-
 # Rota para logout
 @app.route('/logout')
 def logout():
@@ -117,15 +110,16 @@ def logout():
     flash('Logout realizado com sucesso!')
     return redirect(url_for('login'))
 
-
 # Rota para exibir os exames cadastrados
 @app.route('/exames')
 def exames():
-    conn = get_db_connection()
-    exames = conn.execute('SELECT * FROM exames').fetchall()
-    conn.close()
-    return render_template('exames.html', exames=exames)
+    user_id = session.get('user_id')
+    if user_id is None:
+        flash('Você precisa estar logado para ver os exames.')
+        return redirect(url_for('login'))
 
+    exames = Exame.query.filter_by(user_id=user_id).all()
+    return render_template('exames.html', exames=exames)
 
 # Rota para cadastrar novos exames
 @app.route('/cadastrar_exames', methods=['GET', 'POST'])
@@ -134,55 +128,111 @@ def cadastrar_exames():
         name = request.form['name']
         cpf = request.form['cpf']
         nome_exame = request.form['exame']
-        feito = 1 if 'feito' in request.form else 0
-        resultado = 1 if 'resultado' in request.form else 0
+        feito = True if 'feito' in request.form else False
+        resultado = True if 'resultado' in request.form else False
 
-        conn = get_db_connection()
-        conn.execute("INSERT INTO exames (name, cpf, nome_exame, feito, resultado) VALUES (?, ?, ?, ?, ?)",
-                     (name, cpf, nome_exame, feito, resultado))
-        conn.commit()
-        conn.close()
+        user_id = session.get('user_id')
+        if user_id is None:
+            flash('Você precisa estar logado para cadastrar um exame.')
+            return redirect(url_for('login'))
+
+        novo_exame = Exame(name=name, cpf=cpf, nome_exame=nome_exame, feito=feito, resultado=resultado, user_id=user_id)
+        db.session.add(novo_exame)
+        db.session.commit()
+
         flash('Exame cadastrado com sucesso!')
         return redirect(url_for('exames'))
 
     return render_template('cadastrar_exames.html')
 
+# Rota para exibir as consultas cadastradas
+@app.route('/consultas')
+def consultas():
+    user_id = session.get('user_id')
+    if user_id is None:
+        flash('Você precisa estar logado para ver as consultas.')
+        return redirect(url_for('login'))
+
+    consultas = Consulta.query.filter_by(user_id=user_id).all()
+    return render_template('consulta.html', consultas=consultas)
+
+# Rota para cadastrar novas consultas
+@app.route('/cadastrar_consultas', methods=['GET', 'POST'])
+def cadastrar_consultas():
+    if request.method == 'POST':
+        name = request.form['name']
+        cpf = request.form['cpf']
+        tipo_consulta = request.form['consulta']
+        data_consulta = request.form['data']
+        realizada = True if 'realizada' in request.form else False
+
+        user_id = session.get('user_id')
+        if user_id is None:
+            flash('Você precisa estar logado para cadastrar uma consulta.')
+            return redirect(url_for('login'))
+
+        nova_consulta = Consulta(name=name, cpf=cpf, tipo_consulta=tipo_consulta, data_consulta=data_consulta, realizada=realizada, user_id=user_id)
+        db.session.add(nova_consulta)
+        db.session.commit()
+
+        flash('Consulta cadastrada com sucesso!')
+        return redirect(url_for('consultas'))
+
+    return render_template('marcar_consulta.html')
 
 # Rota para editar exames existentes
 @app.route('/editar_exame/<int:id>', methods=['GET', 'POST'])
 def editar_exame(id):
-    conn = get_db_connection()
-    exame = conn.execute('SELECT * FROM exames WHERE id = ?', (id,)).fetchone()
+    exame = Exame.query.get_or_404(id)
 
     if request.method == 'POST':
-        name = request.form['name']
-        cpf = request.form['cpf']
-        nome_exame = request.form['exame']
-        feito = 1 if 'feito' in request.form else 0
-        resultado = 1 if 'resultado' in request.form else 0
+        exame.name = request.form['name']
+        exame.cpf = request.form['cpf']
+        exame.nome_exame = request.form['exame']
+        exame.feito = True if 'feito' in request.form else False
+        exame.resultado = True if 'resultado' in request.form else False
 
-        conn.execute('''
-            UPDATE exames SET name = ?, cpf = ?, nome_exame = ?, feito = ?, resultado = ? WHERE id = ?
-        ''', (name, cpf, nome_exame, feito, resultado, id))
-        conn.commit()
-        conn.close()
+        db.session.commit()
         flash('Exame atualizado com sucesso!')
         return redirect(url_for('exames'))
 
-    conn.close()
     return render_template('editar_exame.html', exame=exame)
-
 
 # Rota para deletar exames
 @app.route('/deletar_exame/<int:id>')
 def deletar_exame(id):
-    conn = get_db_connection()
-    conn.execute('DELETE FROM exames WHERE id = ?', (id,))
-    conn.commit()
-    conn.close()
+    exame = Exame.query.get_or_404(id)
+    db.session.delete(exame)
+    db.session.commit()
     flash('Exame deletado com sucesso!')
     return redirect(url_for('exames'))
 
+# Rota para editar consultas existentes
+@app.route('/editar_consulta/<int:id>', methods=['GET', 'POST'])
+def editar_consulta(id):
+    consulta = Consulta.query.get_or_404(id)
+
+    if request.method == 'POST':
+        consulta.name = request.form['name']
+        consulta.cpf = request.form['cpf']
+        consulta.tipo_consulta = request.form['consulta']
+        consulta.data_consulta = request.form['data']
+        consulta.realizada = True if 'realizada' in request.form else False
+
+        db.session.commit()
+        flash('Consulta atualizada com sucesso!')
+        return redirect(url_for('consultas'))
+
+    return render_template('editar_consulta.html', consulta=consulta)
+
+# Rota para deletar consultas
+@app.route('/deletar_consulta/<int:id>')
+def deletar_consulta(id):
+    consulta = Consulta.query.get_or_404(id)
+    db.session.delete(consulta)
+    db.session.commit()
+    flash('Consulta deletada com sucesso!')
+    return redirect(url_for('consultas'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -17,19 +17,24 @@ body {
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     min-height: 100vh;
     width: 100%;
-    z-index: -1;
     padding: 20px;
+}
+
+/* Container para os botões no topo */
+.top-buttons {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    margin-top: 20px; /* Espaçamento no topo */
 }
 
 /* Botão 'Cadastrar Novo Exame' */
 .novo-exame {
-    position: absolute;
-    top: 20px;
-    left: 20px;
     background-color: #28a745;
     color: white;
     padding: 10px 20px;
@@ -41,6 +46,22 @@ body {
 
 .novo-exame:hover {
     background-color: #218838;
+}
+
+/* Botão Home */
+.btn-home {
+    background-color: #004d99; /* Azul escuro */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 10px; /* Espaçamento entre os botões */
+}
+
+.btn-home:hover {
+    background-color: #003366; /* Azul mais escuro no hover */
 }
 
 /* Estilos da tabela */
@@ -114,35 +135,36 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Botão Home */
-.btn-home {
-    background-color: #004d99; /* Azul escuro */
-    color: white;
+/* Estilo para os botões de navegação (Cadastrar e Home) */
+.btn {
+    display: inline-block;
     padding: 10px 20px;
-    border: none;
+    margin-top: 20px;
     border-radius: 5px;
+    text-align: center;
+    color: white;
     font-size: 1rem;
     cursor: pointer;
-    margin-right: 10px;
+    text-decoration: none;
 }
 
-.btn-home:hover {
-    background-color: #003366; /* Azul mais escuro no hover */
-}
-
-/* Botão Cadastrar */
-.btn-cadastrar {
+/* Botão de Cadastrar Novo Exame */
+.btn.cadastrar {
     background-color: #28a745; /* Verde */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
 }
 
-.btn-cadastrar:hover {
-    background-color: #218838; /* Verde mais escuro no hover */
+.btn.cadastrar:hover {
+    background-color: #218838; /* Verde mais escuro */
+}
+
+/* Botão Voltar para Home */
+.btn.home {
+    background-color: #004d99; /* Azul escuro */
+    margin-left: 10px;
+}
+
+.btn.home:hover {
+    background-color: #003366; /* Azul mais escuro */
 }
 
 /* Responsividade */
@@ -155,8 +177,13 @@ a:hover {
         padding: 10px;
     }
 
-    .novo-exame {
-        font-size: 0.9rem;
-        padding: 8px 16px;
+    .top-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-home {
+        margin-left: 0;
+        margin-top: 10px; /* Espaçamento entre os botões no mobile */
     }
 }

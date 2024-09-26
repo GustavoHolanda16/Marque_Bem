@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="sidebar">
@@ -14,30 +15,73 @@
         </div>
         <nav>
             <ul>
-                <li><a href="{{ url_for('exames') }}">Exames</a></li>
-         
-               
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('exames') }}"><i class="fas fa-stethoscope"></i><span>Exames</span></a></li>
+                <li><a href="{{ url_for('consultas') }}"><i class="fas fa-calendar-check"></i><span>Consultas</span></a></li>
+                <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
             </ul>
         </nav>
+        
     </div>
     <div class="content">
-        <h1>Últimos Exames Marcados</h1>
-        <div class="exams-box">
-            {% for exame in ultimos_exames %}
-            <div class="exam">
-                <p>Nome: {{ exame.name }}</p>
-                <p>Exame: {{ exame.nome_exame }}</p>
+        <h1>Painel Principal</h1>
+        <div class="dashboard">
+            <div class="dashboard-item">
+                <h2>Últimos Exames</h2>
+                <div class="exams-box">
+                    {% for exame in ultimos_exames %}
+                    <div class="exam">
+                        <p>Nome: {{ exame.name }}</p>
+                        <p>Exame: {{ exame.nome_exame }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="{{ url_for('exames') }}" class="btn-exams">Ver Todos os Exames</a>
             </div>
-            {% endfor %}
+            
+            <div class="dashboard-item">
+                <h2>Últimas Consultas</h2>
+                <div class="consults-box">
+                    {% for consulta in ultimas_consultas %}
+                    <div class="consulta">
+                        <p>Nome: {{ consulta.name }}</p>
+                        <p>Consulta: {{ consulta.nome_consulta }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="{{ url_for('consultas') }}" class="btn-consults">Ver Todas as Consultas</a>
+            </div>
+
+            <div class="dashboard-item">
+                <h2>Mapa em Tempo Real</h2>
+                <div id="map"></div> <!-- Mapa ao vivo -->
+            </div>
+
+            <div class="dashboard-item">
+                <h2>Notícias de Saúde</h2>
+                <div class="news-box">
+                    <ul>
+                        <li><a href="#">Notícia 1</a></li>
+                        <li><a href="#">Notícia 2</a></li>
+                        <li><a href="#">Notícia 3</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <a href="{{ url_for('exames') }}" class="btn-exams">Ver Todos os Exames</a>
     </div>
+
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('collapsed');
         }
+
+        // Exemplo de implementação do mapa ao vivo (utilizando API como Google Maps ou OpenStreetMap)
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: { lat: -23.55052, lng: -46.633308 } // São Paulo como exemplo
+            });
+        }
     </script>
-</body>
-</html>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=SUA_CHAVE_API&callback=initMap"></script>
+</

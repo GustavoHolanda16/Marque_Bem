@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas Cadastradas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/consulta.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Consultas Cadastradas</h1>
+    <a href="{{ url_for('cadastrar_consultas') }}">Cadastrar Nova Consulta</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Nome da Consulta</th>
+                <th>Data</th>
+                <th>Realizado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consulta in consultas %}
+            <tr>
+                <td>{{ consulta.id }}</td>
+                <td>{{ consulta.name }}</td>
+                <td>{{ consulta.cpf }}</td>
+                <td>{{ consulta.nome_consulta }}</td>
+                <td>{{ consulta.data }}</td>
+                <td>{{ 'Sim' if consulta.realizado else 'Não' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="home" href="{{ url_for('home') }}" class="btn home">Home</a>
+</body>
+</html>
